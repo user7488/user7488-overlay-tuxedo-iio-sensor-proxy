@@ -48,7 +48,6 @@ src_prepare() {
 
 src_install() {
     meson_src_install
-    doinitd "${FILESDIR}/iio-sensor-proxy"
 }
 
 pkg_postinst() {
