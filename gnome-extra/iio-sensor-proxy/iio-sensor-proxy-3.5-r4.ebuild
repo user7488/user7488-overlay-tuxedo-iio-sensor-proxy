@@ -47,7 +47,25 @@ src_prepare() {
 }
 
 src_install() {
+
     meson_src_install
+
+    # Install OpenRC init script only when systemd is disabled
+    if use !systemd ; then
+        doinitd "${FILESDIR}/iio-sensor-proxy"
+    fi
+
+    # Install systemd service only when systemd is enabled
+    if use systemd ; then
+        insinto "$(systemd_get_systemunitdir)"
+        doins "${FILESDIR}/watch-sensors.service"
+    fi
+
+    # D-Bus service installation (if the file exists)
+    if [[ -f "${S}/net.hadess.SensorProxy.service.in" ]] ; then
+        insinto /usr/share/dbus-1/system-services
+        newins net.hadess.SensorProxy.service.in net.hadess.SensorProxy.service
+    fi
 }
 
 pkg_postinst() {
