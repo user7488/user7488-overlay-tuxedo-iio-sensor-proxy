@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit xdg gnome2-utils meson udev
+inherit xdg gnome2-utils meson udev systemd
 
 DESCRIPTION="IIO sensors to D-Bus proxy"
 HOMEPAGE="https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/"
@@ -47,7 +47,6 @@ src_prepare() {
 }
 
 src_install() {
-
     meson_src_install
 
     # Install OpenRC init script only when systemd is disabled
@@ -78,4 +77,3 @@ pkg_postrm() {
     xdg_pkg_postrm
     gnome2_schemas_update
 }
-
